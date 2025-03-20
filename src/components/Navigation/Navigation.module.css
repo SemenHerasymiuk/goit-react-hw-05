@@ -1,0 +1,17 @@
+.link {
+  text-decoration: none;
+  color: black;
+  margin-right: 20px;
+  font-weight: 500;
+}
+
+.link:global(.active) {
+  color: red;
+}
+
+nav {
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: white;
+}
