@@ -1,5 +1,5 @@
-import { useState, useEffect, Suspense } from 'react';
-import { useParams, Link, Routes, Route, useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { useParams, Link, useLocation, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import MovieCast from '../../components/MovieCast/MovieCast';
 import MovieReviews from '../../components/MovieReviews/MovieReviews';
@@ -9,7 +9,7 @@ const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const locationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -32,7 +32,7 @@ const MovieDetailsPage = () => {
 
   return (
     <div className={css.container}>
-      <Link to={backLinkHref} className={css.backLink}>← Go back</Link>
+      <Link to={locationRef.current}>← Go back</Link>
       
       <div className={css.movieInfo}>
         <img 
@@ -54,19 +54,16 @@ const MovieDetailsPage = () => {
         <h3>Additional information</h3>
         <ul>
           <li>
-            <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+            <Link to={`/movies/${movieId}/cast`} replace>Cast</Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+            <Link to={`/movies/${movieId}/reviews`} replace>Reviews</Link>
           </li>
         </ul>
       </div>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="cast" element={<MovieCast />} />
-          <Route path="reviews" element={<MovieReviews />} />
-        </Routes>
+        <Outlet />
       </Suspense>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import MovieList from '../../components/MovieList/MovieList';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -26,15 +27,7 @@ const HomePage = () => {
   return (
     <div>
       <h1>Trending today</h1>
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-              {movie.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <MovieList movies={movies} location={location} />
     </div>
   );
 };
